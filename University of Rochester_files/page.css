@@ -1,0 +1,261 @@
+﻿.add-line { margin: 0 0 20px; }
+.add-line > a { display: flex; color: #bdbdbd; max-width: 80%; margin-left: auto; margin-right: auto; padding: 0 5px;}
+.add-line > a:hover { background-color: #dadada; color: #757575; }
+.add-line > a .line { -ms-flex-positive: 1; flex-grow: 1; background-color: #bdbdbd; height: 2px; margin-top: auto; margin-bottom: auto; }
+.add-line > a:hover .line { background-color: #757575; }
+.add-line > a .mdi { line-height: 1em; display: inline-block; margin-left: 5px; margin-right: 5px;}
+.add-line > a .mdi:before { font-size: 36px; line-height: 1em; }
+
+.page-line-create { background-color: #ececec; padding: 15px;}
+.page-line-create .row {display: flex; }
+.page-line-create .add-column-col { margin-left: auto; margin-right: auto; }
+.page-line-create .add-column-col .add-column { height: 100%; display: flex; align-items: center; text-align: center; border: 2px dashed #7d7d7d; color: #7d7d7d; cursor: pointer; }
+.page-line-create .add-column-col .add-column .mdi { margin-left: auto; margin-right: auto; }
+.page-line-create .mdi { display: inline-block; line-height: 1em;}
+.page-line-create .mdi:before { line-height: 1em;}
+.page-line-create .element { min-height: 150px; text-align: center; border: 2px solid #444444; }
+.page-line-create .element .selector { font-size: 18px; }
+.page-line-create .element .selector > .mdi { cursor: pointer; }
+.page-line-create .element .add-content {  }
+
+.page-wrapper { padding-top: 15px; padding-left: 25px; padding-right: 25px; }
+
+.edit-bar { background-color: transparent; text-align: right; padding: 5px; }
+.edit-bar > .form-inline > .form-group { display: none; }
+.edit-bar select { height: 30px !important; line-height: 1 !important; padding: 5px 10px !important; font-size: 12px !important; border-radius: 3px !important; appearance: auto; background-image: none !important;}
+
+.page-wrapper .lines > li.loading { min-height: 250px; background-color: blue; margin-bottom: 30px;}
+.page-wrapper:not(.edition) .lines > li > .row { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; flex-wrap: wrap; }
+.page-wrapper:not(.edition) .lines > li > .row .line-element { height: 100%; }
+.page-wrapper:not(.edition) .lines > li > .row .line-element .custom-content { height: 100%; }
+.page-wrapper:not(.edition) .lines > li > .row .line-element .custom-content .section { height: calc(100% - 45px); margin-bottom: 45px; }
+.page-wrapper:not(.edition) .lines > li > .row .line-element .custom-content .section .card { height: 100%; }
+
+.page-wrapper .lines > li > .row .line-element .custom-content .section .slick-slider .card { margin-bottom: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-custom-content .card-inverse .light-text,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-custom-content .card-inverse .light-text .text-muted { color: white; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-custom-content .card-inverse .dark-text { color: #000000; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-custom-content img { max-width: 100%; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-activity { height: calc(100% - 30px); margin-bottom: 30px; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-image { display: flex; align-items: center; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-image img { max-height: 100%; }
+
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar { display: flex; flex-direction: column; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses h2,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance h2,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails h2,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile h2,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial h2,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar h2 { flex-shrink: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .row,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .row,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails .row,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .row,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .row,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .row { flex-grow: 1; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .row .col-xs-12,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .row .col-xs-12,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails .row .col-xs-12,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .row .col-xs-12,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .row .col-xs-12,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .row .col-xs-12 { height: 100%; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .card .card-header,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .card .card-header,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails .card .card-header,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .card .card-header,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .card .card-header,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card .card-header { border-bottom: 1px solid; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .card,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .card,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails .card,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .card,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .card,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card { overflow: hidden; display: flex; flex-direction: column; flex-grow: 1; margin-bottom: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-courses .list-group a,
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-balance .list-group a,
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .list-group a,
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-academic-profile .list-group a,
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-financial .list-group a,
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-calendar .list-group a { color: inherit; text-decoration: none; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .card .list-group,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .card .list-group,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails .card .list-group,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .card .list-group,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card .list-group { max-height: 250px; overflow-y: auto; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .card .list-group .list-group-item,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .card .list-group .list-group-item,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails .card .list-group .list-group-item,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .card .list-group .list-group-item,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .card .list-group .list-group-item,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card .list-group .list-group-item { border-left: 0; border-right: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .card .list-group .list-group-item:first-child,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .card .list-group .list-group-item:first-child,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails .card .list-group .list-group-item:first-child,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .card .list-group .list-group-item:first-child,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card .list-group .list-group-item:first-child { border-top-left-radius: 0; border-top-right-radius: 0; border-top: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .card .list-group .list-group-item:last-child,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .card .list-group .list-group-item:last-child,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails .card .list-group .list-group-item:last-child,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .card .list-group .list-group-item:last-child,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card .list-group .list-group-item:last-child { border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-bottom: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .card .action,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .card .action,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-emails .card .action,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .card .action,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .card .action,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card .action { padding: 10px 20px 15px; margin-top: auto; }
+
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .card .card-header { color: #242130; background-color: #ffffff; border-color: #E5E7EB; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .item-title { font-weight: bold; display: flex; align-items: center; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .item-title i { margin-right: 5px; flex-shrink: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .item-title i::before { line-height: 1em; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-courses .no-item { justify-content: center; flex-direction:column; }
+
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .card .card-header { color: #242130; background-color: #ffffff; border-color: #E5E7EB; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .item-title { font-weight: bold; display: flex; align-items: center; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .item-title i { margin-right: 5px; flex-shrink: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .item-title i::before { line-height: 1em; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-balance .no-item { justify-content: center; flex-direction:column; }
+
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .list-group-item a { display: flex; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .list-group-item a .picture { flex-shrink: 0; margin-right: 1rem; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .list-group-item a .picture img { height: 2.85714286em; width: 2.85714286em; border-radius: 50%; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .list-group-item a .content-wrapper { flex-grow: 1; overflow: hidden; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .email-infos { display: flex; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .email-unread .email-infos,
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .email-unread .item-title { font-weight: bold; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .email-infos .item-sender { flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 16px; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .email-infos .item-date { flex-shrink: 0; margin-left: 10px; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .item-title,
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .item-body { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section-user-my-emails .item-body { color: #737373; }
+
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card .card-header { color: #242130; border-color: #E5E7EB; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card .list-group .list-group-item { border: 0; padding-bottom: 5px; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card .list-group .list-group-item h4 { margin-bottom: 0; font-size: 18px; background-color: #f1f2f3; border-radius: 15px; font-size: 15px; padding: 5px 10px; margin-left: -5px; margin-right: -5px; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .card .list-group .list-group-item:not(:first-child) h4 { margin-top: 15px;  }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .item-date-wrap { display: flex; align-items: center; margin-bottom: 2.5px; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .item-date-wrap .icon { padding: .25em; margin-right: .5em; flex-shrink: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .item-date-wrap .icon.icon-meeting,
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .item-date-wrap .icon.icon-event { border-radius: .25em; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .item-date-wrap .icon.icon-course { transform: rotate(45deg); }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .item-date-wrap .item-date { color: #737373; margin: 0 }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .item-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .item-title i::before { line-height: 1em; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-calendar .no-item {font-weight: bold; display: flex; align-items: center; justify-content: center; flex-direction:column;}
+
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .amount-block { padding: 15px; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .amount-block .amount { margin: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .card .list-group .list-group-item:first-child { border-top-left-radius: 0; border-top-right-radius: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .card .list-group .list-group-item:last-child { border-bottom-right-radius: 0; border-bottom-left-radius: 0; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-financial .card .list-group .list-group-item { display: flex; justify-content: space-between; }
+
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .pie-wrapper { position: relative; width: 1em; height: 1em; margin: 0 auto; font-size: 8em; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .pie-wrapper .label { position: absolute; top: 0.52em; right: 0.4em; bottom: 0.4em; left: 0.4em; display: block; background: none; border-radius: 50%; color: #005fbf; font-size: 0.25em; line-height: 2.6em; text-align: center; z-index: 2; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .pie-wrapper .pie { clip: rect(0px, 1em, 1em, 0.5em); position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .pie-wrapper .pie .half-circle { clip: rect(0em, 0.5em, 1em, 0em); position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0.1em solid #005fbf; border-radius: 50%; }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .pie-wrapper .pie .half-circle.left-side {  }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .pie-wrapper .pie .half-circle.right-side { transform: rotate(0deg); }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .pie-wrapper .pie.higher-than-50 { clip: rect(auto, auto, auto, auto); }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .pie-wrapper .pie.higher-than-50 .half-circle.right-side { transform: rotate(180deg); }
+.page-wrapper .lines > li > .row .line-element .custom-content .section.section-user-my-academic-profile .pie-wrapper .shadow { width: 100%; height: 100%; border: 0.1em solid #BDC3C7; border-radius: 50%; }
+
+.page-wrapper .lines > li > .row .line-element .custom-content .card.card-holds{ display: flex; gap: 5px; align-items: center; padding: 12px; color: black; background-color: #CCE0F9; border: 0px;}
+.page-wrapper .lines > li > .row .line-element .custom-content .card.card-holds:focus,
+.page-wrapper .lines > li > .row .line-element .custom-content .card.card-holds:hover { outline: black auto 1px; outline-offset: 1px; text-decoration: none; }
+.page-wrapper .lines > li > .row .line-element .custom-content .card.card-holds .mdi::before { position: relative; top: 2px; }
+
+.page-wrapper .lines > li > .row .line-element .custom-content h1, 
+.page-wrapper .lines > li > .row .line-element .custom-content h2, 
+.page-wrapper .lines > li > .row .line-element .custom-content h3 { font-family: 'Open Sans', serif; font-weight: 600; }
+.page-wrapper .lines > li > .row .line-element .custom-content h2 { margin-top:0; margin-bottom: 15px; }
+.page-wrapper .lines > li > .row .line-element .custom-content h2.h4.header-cg--h4 { margin-top: 10px; margin-bottom: 10px; font-family: inherit; font-weight: 500; }
+.page-wrapper .lines > li > .row .line-element .custom-content h3 { margin-top: -10px; margin-bottom: 15px; font-size: inherit; }
+.page-wrapper .lines > li > .row .line-element .custom-content h3.h4.header-cg--h4 { font-size: 18px !important; font-family: inherit; font-weight: 500; }
+
+.add-line, .empty-element, .line-helper { display: none; }
+.lines .line-element .move-line-element-btn { display: none; }
+.edition .add-line, .edition .empty-element, .edition .line-helper { display: block; }
+.edition .lines, .initial-add-line { position: relative; margin-right: 60px; }
+.edition .lines > li { margin-bottom: 20px; position: relative; }
+.edition .lines .row.line {display: flex; position: relative; }
+.edition .lines .empty-element { display: flex; flex-direction: column; }
+.edition .lines .empty-element > * { margin: auto 0; border-radius: 5px; }
+.edition .lines .customization-cont.customization-cont--editable { display: flex; flex-direction: column; }
+.edition .lines .customization-cont.customization-cont--editable > .customization-type { position: absolute; top: 0; right: 0; color: white; text-align: center; border-radius: 0 5px; text-transform: capitalize; z-index: 100; font-size: 16px; padding-left: 5px; padding-right: 5px; }
+.edition .lines .customization-cont.customization-cont--editable > .section  { padding: 5px; }
+.edition .lines .customization-cont.customization-cont--editable > .customization-edit { margin-top: auto; }
+.edition .lines .line-element { position: relative; margin-bottom: 20px;}
+.edition .lines .line-element .move-line-element-btn { position: absolute; z-index: 200; top: 0; left: 50%; transform: translateX(-50%); cursor: move; }
+.edition .lines .line-element:hover .move-line-element-btn{ display: inherit; }
+.edition .lines .line-helper { position: absolute; right: -60px; top: 0; }
+.edition .lines.ui-sortable .ui-sortable-placeholder { visibility: inherit !important; background-color: #e6e6e6;}
+.edition .lines.sorting .add-line { visibility: hidden; }
+
+.customization-cont--editable { border-radius: 5px; margin: 5px 0; min-height: 100px; }
+.customization-cont--editable:not(.empty-element) { border: 1px dashed #bdbdbd; }
+.customization-cont--editable:not(.empty-element):hover { border: 1px solid #8d8d8d; }
+.customization-cont--editable .card { margin-bottom: 0; }
+.customization-cont--editable a.customization-edit { color: white; position: relative; text-decoration: none; background-color: #888888; margin-bottom: -1px; margin-left: -1px; margin-right: -1px; border-radius: 0 0 5px 5px; }
+.customization-cont--editable:hover a.customization-edit { background-color: #777777; }
+
+.slick-slider { margin: 0 -5px; }
+.slick-slider .slick-slide { margin-left: 5px; margin-right: 5px; height: inherit;}
+.slick-slider .slick-track { margin-left: inherit; margin-right: inherit; display: flex; }
+.slider-arrow-next, .slider-arrow-previous { position:absolute; top: calc(50% - 40px); cursor:pointer; z-index: 10; }
+.slider-arrow-next.slick-disabled, .slider-arrow-previous.slick-disabled { color: #b5b5b5; cursor: default; }
+.slider-arrow-next { right: -21px; }
+.slider-arrow-previous { left: -21px; }
+@media screen and (min-width: 992px) {
+    .slider-arrow-next { right: -21px; }
+    .slider-arrow-previous { left: -21px; }
+}
+.slick-slider .slick-list { margin-top: -5px; margin-bottom: -5px; }
+.slick-slider .slick-list { padding-top: 5px; padding-bottom: 5px; }
+.slick-slider .slick-list .slick-track .card.card--shadow-hover:hover,
+.slick-slider .slick-list .slick-track .card.card--shadow-hover:focus,
+.slick-slider .slick-list .slick-track .card.card--shadow-hover:focus-within {
+    box-shadow: 0 0 10px -1px rgba(0, 0, 0, 0.75);
+}
+
+.event-slider__card-block { padding: 5px 15px; min-height:34px; font-size: 12px; }
+.event-slider__card-title { font-weight: 600; letter-spacing: 0; line-height: 20px; min-height:40px; width: 100%; margin-bottom: 0; }
+.event_slider .label { color: #ffffff; background-color: #233445; outline: 2px solid #eeeeee; box-shadow: 0 0 3px 0 rgba(219,219,219,1); border-radius: 0 0 5px 0; margin: 0; padding: 5px; position:absolute; top:0; }
+.event_slider .nb_attendees { align-items: center; background-color: #2b2b2b96; border-bottom-left-radius: 100%; box-shadow: 0 0 3px 0 rgba(219,219,219,1); color: white; display: flex; font-size: 11px; height: 42px; justify-content: center; overflow: hidden; position: absolute; right: 0; top: 0; width: 45px; }
+.event_slider .nb_attendees > div { margin-left: 10px; margin-bottom: 3px; }
+.event_slider .nb_attendees > div > div { margin-top: -5px; }
+.event_slider .event_slider--club_name { width: 100%; }
+
+.user_my_groups_slider .card  .pin-btn .btn-grey {display: block;}
+.user_my_groups_slider .card  .pin-btn .mdi.mdi-pin:before { top: 1px; left: -2px; }
+
+.section.section-custom-slider .custom-page-slider .slide { min-height: 170px; display: flex; }
+.section.section-custom-slider .custom-page-slider .slide .slide-content { display: flex; flex-grow: 1; opacity: .85; padding-left: 15px; padding-right: 15px; align-items: center; font-size: 15px; }
+.section.section-custom-slider .custom-page-slider .slide:hover .slide-content { opacity: .9; }
+.section.section-custom-slider .custom-page-slider .slide.slide-banner .slide-content { margin-top: auto; padding-top: 2.5px; padding-bottom: 2.5px; min-height: 35px; }
+.section.section-custom-slider .custom-page-slider .slide.slide-overlay .slide-content { align-items: center; }
+
+.section-user-my-favorites .favorites-slider .favorite-slide { display: flex; text-align: center; justify-content: center; }
+.section-user-my-favorites .favorites-slider .favorite-slide > a { color: #333; }
+.section-user-my-favorites .favorites-slider .favorite-slide .favorite-icon { width: 75px; height: 75px !important; border-radius: 37.5px; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px !important; }
+.section-user-my-favorites .favorites-slider .favorite-slide .favorite-icon .mdi:before { line-height: 1em; font-size: 40px;}
+.section-user-my-favorites .favorites-slider .favorite-slide .app_icon_small { display: block; height: 40px; background-size: contain; width: 40px; background-repeat: no-repeat; margin: 0; }
+
+
+.section.section-user-my-profile .d-flex { display: flex; }
+.section.section-user-my-profile .d-flex.align-items-center { -ms-flex-align: center!important; align-items: center!important; }
+.section.section-user-my-profile .d-flex.flex-wrap { -ms-flex-wrap: wrap!important; flex-wrap: wrap!important; }
+.section.section-user-my-profile .info { font-size: 18px; margin-right: 5px; }
+.section.section-user-my-profile .dropdown-countries > button { font-size: 18px; font-weight: 500; margin-right: 5px; outline: none !important; padding-left: 0; color: inherit; text-decoration: underline;}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card { border-radius: 15px; }
