@@ -1,1010 +1,260 @@
-<!DOCTYPE html>
-<!-- saved from url=(0036)https://ccc.rochester.edu/login_only -->
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script>
-    var jsPageName = "Sign In"; // pass strPageName to JavaScript, used in function setPageName() [accessibility.js]
-    var jsAjaxRequest = ('0' === '1') ? true : false;
-</script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign In</title>
 
- <!-- AX != 1 -->
+  <!-- Use the same font file the original page used -->
+  <link href="open-sans.css" rel="stylesheet" type="text/css">
 
-    <script>
-        var url = new URL(location.href);
-        history.replaceState({type: "login"} , '', url.pathname + url.search);
-    </script>
-    
-    
+  <!-- Minimal, self-contained styles that preserve the original UI and use Open Sans -->
+  <style>
+    :root{
+      --school:#009bdf;
+      --muted:#6b7280;
+      --card-bg:#fff;
+      --page-bg:#f7f9fb;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      /* Use the exact same font family as the original */
+      font-family: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--page-bg);
+      color:#111;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
 
-    
-        <!-- META TAGS -->
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1,requiresActiveX=true">
-        <meta name="apple-itunes-app" content="app-id=1631266986, affiliate-data=myAffiliateData, app-argument=myURL">
+    /* Topbar (simplified) */
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:20px;
+      background:var(--school);
+      color:#fff;
+      padding:10px 18px;
+    }
+    .topbar .logo { display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+    .topbar img { height:40px; width:auto; display:block; }
+    .topnav { margin-left:10px; display:flex; gap:12px; align-items:center; font-weight:600; }
+    .topnav a{ color:rgba(255,255,255,0.95); text-decoration:none; padding:6px 8px; border-radius:6px; }
+    .topnav a[aria-current="true"], .topnav a:focus, .topnav a:hover { background:rgba(0,0,0,0.15); }
 
-        <title>Sign In</title>
-        <meta name="description" content="The campus engagement platform for University of Rochester - Powered by CampusGroups.">
-        <meta name="title" content="University of Rochester">
+    /* Page container */
+    .page {
+      display:flex;
+      flex:1;
+      align-items:center;
+      justify-content:center;
+      padding:36px 18px;
+      position:relative;
+      overflow:hidden;
+    }
 
-        
+    /* Card */
+    .login__box{
+      width:100%;
+      max-width:480px;
+      background:var(--card-bg);
+      border-radius:10px;
+      box-shadow: 0 8px 28px rgba(16,24,40,0.08);
+      padding:28px;
+      z-index:2;
+    }
+    .login__box h1{ margin:0 0 8px 0; font-size:20px; }
+    .login__box p{ margin:6px 0 14px 0; color:var(--muted); font-size:14px; }
 
-        <!-- CSS IMPORT -->
-        
+    .btn--school {
+      display:inline-block;
+      width:100%;
+      text-align:center;
+      background:var(--school);
+      color:#fff;
+      padding:12px 14px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:700;
+      border:none;
+      cursor:pointer;
+      font-size:15px;
+      font-family: inherit;
+    }
 
-            <!-- FONT FOR DEV -->
-            <link href="open-sans.css" rel="stylesheet" type="text/css">
+    .card-separator {
+      height:1px;
+      background:#eef2f6;
+      margin:18px 0;
+    }
 
-            <!-- FAVICON -->
-            <link rel="icon" type="images/x-icon" href="https://ccc.rochester.edu/upload/rochester/2019/s1_image_upload_875413_ccc_app_icon201901_711162656.png">
-            <link rel="shortcut icon" type="images/x-icon" href="https://ccc.rochester.edu/upload/rochester/2019/s1_image_upload_875413_ccc_app_icon201901_711162656.png">
+    .hint { font-size:14px; color:var(--muted); }
 
-            <!-- JQUERY UI -->
-            <link rel="stylesheet" type="text/css" href="jquery-ui.min.css">
+    form .form-group{ margin-bottom:12px; }
+    .form-control{
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #e6e9ee;
+      font-size:15px;
+      background:white;
+      font-family: inherit;
+    }
 
-            <!-- AUTOCOMPLETE -->
-            <link rel="stylesheet" type="text/css" href="jquery.autocomplete.css">
+    .row {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:6px;
+    }
 
-            <!-- BOOTSTRAP & GLYPHICONS -->
-            <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-            <link rel="stylesheet" type="text/css" href="bootstrap-multiselect.css">
-            <link rel="stylesheet" type="text/css" href="glyphicons-filetypes.css">
+    .checkbox{ display:flex; gap:8px; align-items:center; font-size:14px; color:var(--muted); }
 
-            <!-- THICKBOX -->
-            <link rel="stylesheet" type="text/css" href="thickbox.css">
-        
+    .link{ color:var(--school); text-decoration:none; font-weight:600; font-size:14px; }
 
-        <!-- JQUERY & FONT -->
-        <script src="jquery.min.js.download"></script>
-        <script src="jquery-ui.min.js.download"></script>
+    /* Background image (keeps original visual) */
+    .login__background-img{
+      position:absolute;
+      right:-10%;
+      bottom:0;
+      top:0;
+      width:55%;
+      background-size:cover;
+      background-position:center;
+      opacity:0.12;
+      z-index:1;
+      pointer-events:none;
+    }
 
-        <!-- BOOTSTRAP -->
-        <script src="bootstrap.min.js.download"></script>
-        <script src="bootstrap-multiselect.js.download"></script>
-
-        <script type="text/javascript" src="accessibility.js.download"></script>
-        <script type="text/javascript" src="scripts.js.download"></script>
-
-        <link rel="stylesheet" type="text/css" href="materialdesignicons.min.css">
-        <link rel="stylesheet" type="text/css" href="materialdesigniconscustom.css">
-        
-        <link rel="stylesheet" type="text/css" href="header.css">
-        <link rel="stylesheet" type="text/css" href="bootstrap-customV.css">
-        
-        
-    </head>
-
-    <body class="body-background enlarged" data-menu="">
-
-        <!-- SKIP links - skip to top of main content -->
-        <div id="div-skip-links" class="skip-link-container">
-                
-            <span style="padding: 5px"><a id="a-skip-to-main-content" href="javascript:void(&#39;skip-to-main-content&#39;);" class="skip-link" onclick="setFocusToContent(true);" aria-label="Skip to Main Content">Skip to Main Content</a></span>
-
-            <span id="span-skip-to-left-navigation" style="padding: 5px; display: none;"><a id="a-skip-to-left-navigation" href="javascript:void(&#39;skip-to-navigation&#39;);" class="skip-link" onclick="setFocusToSidebar();" aria-label="Skip to Navigation">Skip to Navigation</a></span>
-
-            <!-- ACCESSIBILITY -->
-            
-
-            <script>
-                // if we're on mobile we will not enable the skip links
-                const isMobileDevice = /Mobi/i.test(window.navigator.userAgent);
-                // console.log('> isMobileDevice=' + isMobileDevice);
-
-                $(window).on('load', function () {
-                    if (!isMobileDevice) {
-                        var elem = document.getElementById('div-skip-links');
-                        if (typeof elem !== undefined) {
-                            elem.classList.remove('skip-link-container-mobile');
-                            elem.classList.add('skip-link-container');
-                        }
-                    }
-                });
-            </script>
-        </div>
-
-        <!-- School custom code -->
-        
-        <!-- End school custom code -->
-    
-
-        <!-- Modal -->
-        <div id="primary-modal" class="modal fade" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <p class="loader">
-                        <img alt="" src="loader-big.gif" class="aria-decorative" role="presentation" aria-hidden="true">
-                        <br> Loading...
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div id="secondary-modal" class="modal fade" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <p class="loader">
-                        <img alt="" src="loader-big.gif" class="aria-decorative" role="presentation" aria-hidden="true">
-                        <br> Loading...
-                    </p>
-                </div>
-            </div>
-        </div>
-        <script>
-            $("#primary-modal").on("hide.bs.modal", function (e) {
-                $("#primary-modal .modal-content").html(writeLoading("Loading"));
-            });
-            $("#secondary-modal").on("hide.bs.modal", function (e) {
-                $("#secondary-modal .modal-content").html(writeLoading("Loading"));
-            });
-        </script>
-        <!-- End Modal -->
-
-        
-
-        <script src="modernizr.min.js.download"></script>
-        
-            <script src="jquery.validate.min.js.download"></script>
-        
-        <script src="polyfill.js.download"></script>
-
-        
-
-        <!-- HEADER -->
-        
-            <style>
-                .btn--school { background-color: #009bdf; color: #fff; }
-                .btn--school:hover { background-color: #009bdf; color: #fff; }
-                .btn--school:focus { background-color: #009bdf; color: #fff; }
-
-                .topbar { background: #009bdf; border-color: #009bdf; }
-                .topbar ul.nav > li > a:hover, .topbar ul.nav > li > button:hover  { background-color: #333333 !important; }
-                .topbar ul.nav > li > a:focus, .topbar ul.nav > li > button:focus  { background-color: #333333 !important; outline: none; }
-                .topbar .topbar__sidebar-toggle:hover  { background-color: #333333 !important; }
-                .topbar .topbar__sidebar-toggle:focus  { background-color: #333333 !important; outline: none; }
-                .topbar.topbar-fair .topbar__left button:hover, .topbar.topbar-fair .topbar__left button:focus { background-color: #ffffff !important; color: #000000 !important; }
-                
-                .topbar .open:not(.topbar__left) > a, 
-                .topbar .open:not(.topbar__left) > a:focus, 
-                .topbar > .open:not(.topbar__left) > a:hover,
-                .topbar .open:not(.topbar__left) > button, 
-                .topbar .open:not(.topbar__left) > button:focus, 
-                .topbar > .open:not(.topbar__left) > button:hover { background-color: #333333 !important; }
-                .topbar li:focus-within > button.mdi-menu { background-color: #333333 !important; }
-                .topbar li.active > a, .topbar li.active > button { background-color: #333333 !important; }
-            </style>
-
-            <div id="generic"></div>
-
-            
-            <div id="outer-shell" class="outer-shell  ">
-
-                <!-- Impersonate -->
-                
-                <!-- /.Impersonate -->
-
-                <!-- Message / Maintenance -->
-                
-                <!-- /.Message -->
-
-                
-                <div id="topbar" class="topbar topbar-login " role="navigation" aria-label="Topbar">
-
-                    <div class="topbar__left">
-                        
-                                <div role="banner">
-                                    <a id="a-top-bar-logo" aria-label="University of Rochester Logo. Opens the members homepage." role="button" class="logo" href="https://ccc.rochester.edu/groups">
-                                        <img class="topbar__icon-large" src="image_upload_875413_ccc_logo_50x130_71115585.png" alt="University of Rochester Logo Image." aria-label="University of Rochester Logo Image. Clicking opens the members home page." style="max-height: 50px; max-width: 165px;">
-                                        <img class="topbar__icon-small" src="image_upload_875413_ccc_app_icon201901_711162640.png" alt="University of Rochester Logo Image." aria-label="University of Rochester Logo Image. Clicking opens the members home page." style="max-height: 35px; max-width: 35px; margin: 0 5px;">
-                                    </a>
-                                </div>
-                            
-                    </div>
-
-                    
-
-<div class="topbar__center">
-    <nav aria-label="Topbar">
-        <ul class="nav">
-            
-                <!-- Not Logged Buttons -->
-                
-                    <!-- Home Website Buttons -->
-                    
-                        <li class="hidden-xs ">
-                            <a class="topbar__menu topbar__menu--large" href="https://ccc.rochester.edu/home_login" aria-label="Home" role="button">Home</a>
-                        </li>
-                                    <li class="hidden-xs dropdown  hasNoSubMenu">
-                <a class="topbar__menu topbar__menu--large" href="https://ccc.rochester.edu/home/groups/" style="max-width: inherit">
-                    Groups
-                </a>
-                
-                <ul class="dropdown-menu dropdown-menu-left arrow-dropdown-menu arrow-menu-right user-list notify-list" style="overflow-y: auto;max-height: 80vh;">
-
-                </ul>
-            </li>            <li class="hidden-xs dropdown  hasNoSubMenu">
-                <a class="topbar__menu topbar__menu--large" href="https://ccc.rochester.edu/home/events/" style="max-width: inherit">
-                    Events
-                </a>
-                
-                <ul class="dropdown-menu dropdown-menu-left arrow-dropdown-menu arrow-menu-right user-list notify-list" style="overflow-y: auto;max-height: 80vh;">
-
-                </ul>
-            </li>            <li class="hidden-xs dropdown  hasNoSubMenu">
-                <a class="topbar__menu topbar__menu--large" href="https://ccc.rochester.edu/home/news/" style="max-width: inherit">
-                    News
-                </a>
-                
-                <ul class="dropdown-menu dropdown-menu-left arrow-dropdown-menu arrow-menu-right user-list notify-list" style="overflow-y: auto;max-height: 80vh;">
-
-                </ul>
-            </li>
-                        <li class="hidden-lg hidden-md hidden-sm dropdown hasSubMenu">
-                            <button class="topbar__menu mdi mdi-menu" aria-label="Top Menu. Expanded. Press tab to enter the menu dropdown." tabindex="0"></button>
-                            <ul class="dropdown-menu dropdown-menu-left" style="overflow-y: auto;max-height: 80vh;min-width:220px;">
-                                <li style="display: block;"><a href="https://ccc.rochester.edu/home_login" aria-label="Home" role="button">Home</a></li>
-                                
-                                <li style="display: block;"><a href="https://ccc.rochester.edu/home/groups/" aria-label="Groups Section" role="button" tabindex="0">Groups</a></li>
-                                
-                                <li style="display: block;"><a href="https://ccc.rochester.edu/home/events/" aria-label="Events Section" role="button" tabindex="0">Events</a></li>
-                                
-                                <li style="display: block;"><a href="https://ccc.rochester.edu/home/news/" aria-label="News Section" role="button" tabindex="0">News</a></li>
-                                
-                            </ul>
-                            <style>
-                                .hasSubMenu:hover > ul, .hasSubMenu:focus-within > ul {
-                                    display:block;
-                                }
-                            </style>
-                        </li>
-                    <!-- /.Home Website Buttons -->
-
-                    <!-- Group & Event Buttons -->
-                    
-                    <!-- /.Group & Event Buttons -->
-                
-                <!-- /.Not Logged Buttons -->
-
-                <!-- Home Button -->
-                
-                <!-- /.Home Button -->
-
-                <!-- Group Button -->
-                
-                <!-- /.Group Button -->
-
-                <!-- Manage Button -->
-                
-
-                <!-- Event Button -->
-                
-                <!-- /.Event Button -->
-               
-                <!-- Chat Button -->
-                
-                <!-- /.Chat Button -->
-                
-                <!-- Admin / Setup Button -->
-                
-                <!-- /.Admin Button -->
-            
-
-            <li class="spacer" role="presentation"></li>
-
-            
-				<!-- Login Button -->
-				<li class="active">
-					<a class="topbar__menu topbar__menu--row" href="https://ccc.rochester.edu/login_only" aria-label="Sign In Section" role="button" aria-current="true">
-                        <span class="mdi mdi-login-variant mdi-24px aria-decorative" role="presentation" aria-hidden="true"></span> 
-                        <span class="hidden-xs hidden-sm topbar__menu-text" style="overflow: initial;"> Sign In </span>
-					</a>
-				</li>
-				<!-- /.Login Button -->
-            
-
-        </ul>
-
-        <style>
-            #a-top-bar-logo:focus > i { outline: 2px solid #ffffff; }
-        </style>
-
+    footer{ padding:18px; text-align:center; font-size:13px; color:var(--muted); background:transparent; }
+    @media (max-width:900px){
+      .login__background-img{ display:none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Simplified topbar that preserves logo + nav + active Sign In -->
+  <header class="topbar" role="banner" aria-label="Topbar">
+    <a href="https://ccc.rochester.edu/groups" class="logo" id="a-top-bar-logo" aria-label="University of Rochester Logo. Opens the members homepage.">
+      <img src="image_upload_875413_ccc_logo_50x130_71115585.png" alt="University of Rochester Logo">
+    </a>
+    <nav class="topnav" aria-label="Main">
+      <a href="https://ccc.rochester.edu/home_login">Home</a>
+      <a href="https://ccc.rochester.edu/home/groups/">Groups</a>
+      <a href="https://ccc.rochester.edu/home/events/">Events</a>
+      <a href="https://ccc.rochester.edu/home/news/">News</a>
+      <a href="https://ccc.rochester.edu/login_only" aria-current="true" style="margin-left:14px;">Sign In</a>
     </nav>
+  </header>
 
+  <!-- Main content -->
+  <main class="page" role="main" aria-label="Sign In">
+    <section class="login__box" aria-labelledby="signin-title">
+      <h1 id="signin-title">Sign in</h1>
 
-</div><!-- /.navbar-collapse -->
-                    
-                </div><!-- /.topbar -->
+      <p><strong>University of Rochester Accounts</strong><br><small class="hint">Use your Active Directory Login</small></p>
 
-                <div id="inner-shell" class="inner-shell">
+      <p style="margin-bottom:12px;">
+        <a class="btn--school" href="https://www.campusgroups.com/shibboleth/login?idp=rochester" id="ad-login">
+          Active Directory Login
+        </a>
+      </p>
 
-                     
+      <div class="card-separator" aria-hidden="true"></div>
 
-        <!-- END HEADER -->
+      <p style="margin:0 0 6px 0;"><strong>Guest Accounts:</strong>
+        <a href="#" id="a-all-others-sign-in-below" class="link" style="margin-left:10px;">Sign in below</a>
+      </p>
 
-        
-            <div id="content-cont" class="content-cont container">
-        
-            <div id="page-cont" class="content" role="main" aria-label="Sign In.">
-                <div style="position: relative;"><span id="span-top-of-main-content--0" class="content__top-element" tabindex="0" aria-label="Top of Main Content." style="display: none;">Top of Main Content</span></div>
+      <!-- Hidden alternate login (keeps original action+hidden inputs & CSRF token) -->
+      <form id="rochester_login" name="login" method="post" action="https://ccc.rochester.edu/student_login" style="display:none; margin-top:14px;" novalidate>
+        <div role="region" aria-label="Alternate login.">
+          <div class="form-group">
+            <input id="login_email" autocomplete="email" class="form-control" name="email" type="email" placeholder="Email" title="Enter your Email" value="" aria-label="Login. Enter your Email." required>
+          </div>
 
+          <div class="form-group" style="position:relative;">
+            <input id="login_password" class="form-control" autocomplete="current-password" name="password" type="password" placeholder="Password" title="Enter your password" value="" aria-label="Password." required>
+          </div>
 
-                
-                <!-- Used in email_form -->
-                
-<!-- END AX != 1 -->
+          <div style="margin-top:6px;">
+            <button type="submit" id="loginButton" class="btn--school" aria-label="Sign In">Sign In</button>
+          </div>
 
-                
+          <!-- Hidden inputs copied from original to preserve server parameters -->
+          <input type="hidden" name="update" value="1">
+          <input type="hidden" name="ssl" value="1">
+          <input type="hidden" name="redirect" value="student_index">
+          <input type="hidden" name="page" value="login">
+          <input type="hidden" name="user" value="">
+          <input type="hidden" name="_csrf" value="5//zWpIH46M19OgLfHI/6Yq6W6X8vmxSiPL4/GjUI6IL">
 
-<div class="login__cont">
-	<div class="login__box">
-    	
+          <div class="row" style="margin-top:10px;">
+            <label class="checkbox"><input id="remember_me" type="checkbox" name="remember_me" value="1"> Keep me signed on</label>
+            <a class="link" href="https://ccc.rochester.edu/password_boot?email=&amp;embed=1&amp;modal=true&amp;TB_iframe=true&amp;height=250&amp;width=500" title="Forgot Password">Forgot Password?</a>
+          </div>
+        </div>
+      </form>
+    </section>
 
+    <!-- Background image preserved from original (keeps same visual) -->
+    <div class="login__background-img" aria-hidden="true"
+         style="background-image: url('/upload/rochester/2019/image_upload_875413_20140508_Wilson_Commons_exterior_0241_tonedjpg_711154318.png');"></div>
+  </main>
 
-<div class="login__card card">
-	
-		<div class="card-block" style="padding: 20px 40px;">
-	
+  <footer>
+    <div style="max-width:980px;margin:0 auto;">
+      <div style="display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;">
+        <img src="image_upload_875413_ccc_logo_50x130_71115585.png" alt="" style="height:36px;border-radius:6px;">
+        <div style="text-align:left;">
+          <div>University of Rochester — United States</div>
+          <a href="mailto:wcsa@rochester.edu" class="link" style="font-weight:600;">wcsa@rochester.edu</a>
+        </div>
+      </div>
 
-			<h1 class="header-cg--h2">Sign in</h1>
-
-	
-			<p style="margin-bottom: 15px;">
-				<strong>University of Rochester Accounts</strong>
-				<br>
-				<small>Use your Active Directory Login</small>
-			</p>
-			<p class="text-center">
-			
-				<a class="btn btn--school btn--full-width" href="https://www.campusgroups.com/shibboleth/login?idp=rochester">Active Directory Login</a>
-				
-			</p>
-			<p>
-				
-			</p>
-		
-		<div class="card-separator card-separator--20"></div>
-			
-				<p style="margin-bottom: 15px;"><strong>Guest Accounts:</strong> <a href="javascript:toggle_ecg(&#39;rochester_login&#39;, &#39;a-all-others-sign-in-below&#39;)" id="a-all-others-sign-in-below" aria-expanded="false" aria-label="All others sign in below. Click here to expand an alternate login form.">Sign in below</a></p>
-			
-	<p>
-		
-	</p>
-	
-	
-		<form id="rochester_login" style="display:none;" onload="document.form1.email.focus();" name="login" method="post" action="https://ccc.rochester.edu/student_login">
-
-			
-
-				<div role="region" aria-label="Alternate login.">
-					<div class="form-group">
-						<input id="login_email" autocomplete="email" class="form-control" name="email" type="text" placeholder="Email" title="Enter your Email" value="" aria-label="Login. Enter your Email.">
-					</div>
-					
-					<div class="form-group">
-						<input class="form-control" autocomplete="current-password" name="password" type="password" placeholder="Password" title="Enter your password" value="" aria-label="Password.">
-					</div>
-					
-					
-					<button id="loginButton" aria-label="Sign In" onclick="if(!$(&#39;#login_email&#39;).val()){alert(&#39;Please enter a valid email.&#39;);}else{loadButton($(this));$(&#39;form#rochester_login&#39;).submit();}" class="btn btn--school btn--full-width" style="letter-spacing: 1px; padding: 8px; text-transform: uppercase;" type="button" value=" Sign In "> Sign In </button>
-
-					<input type="hidden" name="update" value="1">
-					<input type="hidden" name="ssl" value="1">
-					<input type="hidden" name="redirect" value="student_index">
-					<input type="hidden" name="page" value="login">
-					<input type="hidden" name="user" value="">
-					<input type="hidden" name="_csrf" value="5//zWpIH46M19OgLfHI/6Yq6W6X8vmxSiPL4/GjUI6IL">
-					
-					<div class="checkbox">
-						<input id="remember_me" type="checkbox" name="remember_me" value="1"> 
-						<label id="label_for_remember_me" for="remember_me">Keep me signed on</label>
-					</div>
-
-					<div class="small" style="margin-top: 15px;">
-						
-						<a class="" href="https://ccc.rochester.edu/password_boot?email=&amp;embed=1&amp;modal=true&amp;TB_iframe=true&amp;height=250&amp;width=500" title="Forgot Password">Forgot Password?</a>
-						
-					</div>
-				</div>
-
-		   	
-	    </form>
-
-		
-	</div>
-</div>
+      <div style="margin-top:12px;color:var(--muted);font-size:13px;">
+        ©2025 CampusGroups — <a class="link" href="https://readyedu.atlassian.net/wiki/spaces/CGSD/overview?homepageId=302186786">Support Center</a>
+      </div>
     </div>
-</div>
+  </footer>
 
-	<div class="login__background-img" style="background-image: url(/upload/rochester/2019/image_upload_875413_20140508_Wilson_Commons_exterior_0241_tonedjpg_711154318.png);"></div>
+  <!-- Minimal JS: toggle guest form and basic validation. -->
+  <script>
+    (function(){
+      // Toggle the alternate guest login form
+      var toggleLink = document.getElementById('a-all-others-sign-in-below');
+      var form = document.getElementById('rochester_login');
 
-
-<!-- LL - 10/03/2017: Moved up here so ckeditor can work in popups -->
-
-
-<script>
-	//YT Viewer
-	if (typeof arrYoutubePlayerObjects != "undefined") { 
-
-		$("#youtubeScript").remove();
-		$("#www-widgetapi-script").remove();
-		if (window['YT'] != undefined) { window.YT.loading = 0; window.YT.loaded = 0; }
-				
- 		var youtubeTag   = document.createElement('script');
-		youtubeTag.id    = "youtubeScript";
-		youtubeTag.src   = "https://www.youtube.com/iframe_api";
-		youtubeTag.async = false;
-
-		// Get First Script Tag & Insert Vimeo Script before that.
-		var firstScriptTag = document.getElementsByTagName('script')[0];
-      	firstScriptTag.parentNode.insertBefore(youtubeTag, firstScriptTag);
-
-      	// Array of Players
-      	var arrYoutubePlayers = [];
-
-      	// Functions to work on Youtube Players
-      	function onYoutubePlayerReady(event) {
-			var player = event.target;
-			$(window).blur(function() { player.pauseVideo(); });
-			$(window).scroll(function() { 
-				if ( !isInViewport(document.getElementById("player--" + player.youtubeObject.cgID))) { 
-					player.pauseVideo(); 
-				} 
-			});
-
-			var startTime = new Date(player.youtubeObject.startTime * 1000).toISOString();
-			var totalTime = new Date(player.getDuration() * 1000).toISOString();
-			if (player.getDuration() >= 3600) {
-				startTime = startTime.substr(11, 8);
-				totalTime = totalTime.substr(11, 8);
-			}
-			else {
-				startTime = startTime.substr(14, 5);
-				totalTime = totalTime.substr(14, 5);
-			}
-			$("#player-btn--" + player.youtubeObject.cgID + " div.timer").html("<span id='player-time--" + player.youtubeObject.cgID + "'>" + startTime + "</span> / " + totalTime);
-      	}
-
-      	function onYoutubePlayerStateChange(event) {
-      		var player = event.target;
-
-      		if (event.data == YT.PlayerState.PLAYING) {
-				// Change Buttons
-				$("#player-btn--" + player.youtubeObject.cgID + " button.playpause").attr("data-status", "pause").attr("aria-label", "Pause");
-				$("#player-btn--" + player.youtubeObject.cgID + " button.playpause span.mdi").removeClass("mdi-play").addClass("mdi-pause");
-      		}
-
-      		if (event.data == YT.PlayerState.PLAYING && player.intervalFunction == null) {
-	            // HACK For Window BLUR
-	            window.focus();
-
-	            // AJAX Recurring Call
-	            player.intervalFunction = setInterval(function() {
-	                postVideoViews(player.youtubeObject.cgUID, player.youtubeObject.cgUID_s, player.getCurrentTime());
-	            }, 10000);
-
-	            // Timer
-	            player.intervalTimerFunction = setInterval(function() { 
-	            	var currentTime = new Date(player.getCurrentTime() * 1000).toISOString();
-	            	if (player.getDuration() >= 3600) {
-	            		currentTime = currentTime.substr(11, 8);
-	            	}
-	            	else {
-	            		currentTime = currentTime.substr(14, 5);
-	            	}
-	            	$("#player-time--" + player.youtubeObject.cgID).html(currentTime);
-	            }, 1000) 
-	        }
-	        else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
-				// Change Buttons
-				$("#player-btn--" + player.youtubeObject.cgID + " button.playpause").attr("data-status", "play").attr("aria-label", "Play");
-				$("#player-btn--" + player.youtubeObject.cgID + " button.playpause span.mdi").removeClass("mdi-pause").addClass("mdi-play");
-
-	            clearInterval(player.intervalFunction);
-	            clearInterval(player.intervalTimerFunction);
-				player.intervalFunction = null;
-				player.intervalTimerFunction = null;
-				postVideoViews(player.youtubeObject.cgUID, player.youtubeObject.cgUID_s, player.getCurrentTime(), (event.data == YT.PlayerState.ENDED ? 'true' : ''));
-				//if (event.data == YT.PlayerState.ENDED) { 
-				    //if (typeof refreshTrackChecklist !== "undefined") { refreshTrackChecklist(); }
-					//else if (typeof parent.refreshTrackChecklist !== "undefined") { parent.refreshTrackChecklist(); }
-				//}
-	        }
-      	}
-
-		function youtubePlayerPlayPause(player) {
-			var currentStatus = $("#player-btn--" + player.youtubeObject.cgID + " button.playpause").attr("data-status");
-			if (currentStatus == "play") { player.playVideo(); }
-			else if (currentStatus == "pause") { player.pauseVideo(); }
-		}
-
-        /* Function that checks localStorage for the Vimeo/YouTube closed captions load policy. Returns number values:
-         *   0 - closed captions should be be disabled (do not load closed captions)
-         *   1 - closed captions should be loaded when video loads
-         * If the local storage key is not defined we return 0 (as a number).
-         */
-        function getVideoPlayerCCLoadPolicy() {
-            try {
-                const lsKey = 'cg-video-player-cc-load-policy';
-                const ccLoadPolicy = localStorage.getItem(lsKey);
-                return (ccLoadPolicy === '1') ? 1 : 0;
-            } catch(e) {
-                return 0;
-            }
+      toggleLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (form.style.display === 'none' || form.style.display === '') {
+          form.style.display = 'block';
+          document.getElementById('login_email').focus();
+          toggleLink.textContent = 'Hide sign in';
+        } else {
+          form.style.display = 'none';
+          toggleLink.textContent = 'Sign in below';
         }
+      });
 
-        /* Function that toggles the video player CC load policy stored in local storage. Toggled values are (strings values):
-         *   '0' - closed captions should be be disabled (do not load closed captions)
-         *   '1' - closed captions should be loaded when video loads
-         * If the local storage key is not defined it is treated as though the value were '0' and toggles to '1'.
-         * */
-        function toggleVideoPlayerCCLoadPolicy() {
-            try {
-                const lsKey = 'cg-video-player-cc-load-policy';
-                const ccLoadPolicy = localStorage.getItem(lsKey);
-                if (ccLoadPolicy === '1') {
-                    localStorage.setItem(lsKey, '0');
-                } else {
-                    localStorage.setItem(lsKey, '1');
-                }
-            } catch(e) {
-                return;
-            }
+      // Basic client-side validation and graceful submit
+      form.addEventListener('submit', function (e) {
+        if (!form.checkValidity()) {
+          return;
         }
-
-        /* Function that prompts the user for confirmation before toggling the video player closed caption load policy.
-         * - If closed captions are currently turned off, the user will be prompted to confirm before turning them on (and vice versa)
-         * - Video player CC load policy setting is stored in local storage (see above functions)
-         * - Vimeo and YouTube video players require reload of the associated IFrames to change the setting, 
-         *   if user confirms yes to reload, the page will be reloaded.
-         */
-        function toggleClosedCaptionsAndReloadVideoIframes() {
-            const turnClosedCaptionsOnOff = (typeof getVideoPlayerCCLoadPolicy !== 'undefined' && getVideoPlayerCCLoadPolicy() === 1) ? 'off' : 'on';
-            const message = 'Turning ' + turnClosedCaptionsOnOff + ' closed captions will reload this page, please save any outstanding changes before you choose to turn closed captions ' + turnClosedCaptionsOnOff + '. Are you sure you want to turn closed captions ' + turnClosedCaptionsOnOff + '?';
-            if (confirm(message)) {
-                toggleVideoPlayerCCLoadPolicy();
-                location.reload();
-            } else {
-                return false;
-            }
-        }
-
-      	// Called when the script is fully loaded.
-      	function onYouTubeIframeAPIReady() {
-
-      		// Loop through players
-	  		arrYoutubePlayerObjects.forEach(function (youtubeObject, index) {
-	  			arrYoutubePlayers[index] = new YT.Player("player--" + youtubeObject.cgID, {
-                                                        	height: youtubeObject.height,
-                                                        	width:  youtubeObject.width,
-                                                        	videoId: youtubeObject.videoID,
-                                                        	playerVars: {
-	                                                            modestbranding: 1,
-	                                                            rel: 0,
-	                                                            disablekb: 1,
-	                                                            playsinline: 1,
-	                                                            controls: 0,
-	                                                            start: youtubeObject.startTime,
-                                                                cc_load_policy: (typeof getVideoPlayerCCLoadPolicy !== 'undefined') ? getVideoPlayerCCLoadPolicy() : 0
-                                                        	},
-	                                                        events: {
-	                                                            'onStateChange': onYoutubePlayerStateChange,
-	                                                            'onReady': onYoutubePlayerReady
-	                                                        }
-                                                    	});
-	  			arrYoutubePlayers[index].youtubeObject = youtubeObject;
-	  			arrYoutubePlayers[index].intervalFunction = null;
-
-				$("#player-btn--" + youtubeObject.cgID + " button.playpause").on('click', function() { 
-					youtubePlayerPlayPause(arrYoutubePlayers[index]); 
-				});
-				$("#player-btn--" + youtubeObject.cgID + " button.replay").on('click', function() { 
-					arrYoutubePlayers[index].seekTo(0); 
-				});
-				$("#player-btn--" + youtubeObject.cgID + " button.rewind").on('click', function() { 
-					arrYoutubePlayers[index].seekTo(arrYoutubePlayers[index].getCurrentTime() - 10);
-				});
-                const turnClosedCaptionsOnOff = (typeof getVideoPlayerCCLoadPolicy !== 'undefined' && getVideoPlayerCCLoadPolicy() === 1) ? 'off' : 'on';
-                $("#player-btn--" + youtubeObject.cgID + " button.closedcaption").attr('aria-label', 'Turn ' + turnClosedCaptionsOnOff + ' closed captions. Note, this requires a reload of the current page.');
-				$("#player-btn--" + youtubeObject.cgID + " button.closedcaption").on('click', function() { 
-                    toggleClosedCaptionsAndReloadVideoIframes();
-				});
-				$("#player-btn--" + youtubeObject.cgID + " button.fullscreen").on('click', function() {
-					arrYoutubePlayers[index].pauseVideo();
-					tb_show("", "/video_player?embed=1&uid=" + youtubeObject.cgUID + "&width=995&height=680&modal=true&TB_iframe=1", "");
-				});
-
-  			});
-
-  			arrYoutubePlayerObjects = undefined;
-  		}
-	} 
-
-
-	//Vimeo Viewer
-	if (typeof arrVimeoPlayerObjects != "undefined") {
-
-        $("#vimeoScript").remove();
-
-		var vimeoTag   = document.createElement('script');
-		vimeoTag.id    = "vimeoScript";
-		vimeoTag.src   = "https://player.vimeo.com/api/player.js";
-		vimeoTag.async = false;
-
-		// Get First Script Tag & Insert Vimeo Script before that.
-		var firstScriptTag = document.getElementsByTagName('script')[0];
-      	firstScriptTag.parentNode.insertBefore(vimeoTag, firstScriptTag);
-
-      	// Array of Players
-      	var arrVimeoPlayers = [];
-
-      	// Functions to work on Vimeo Players
-		function vimeoPlayerPlay(player) {
-			// Change Buttons
-			$("#player-btn--" + player.vimeoObject.cgID + " button.playpause").attr("data-status", "pause").attr("aria-label", "Pause");
-			$("#player-btn--" + player.vimeoObject.cgID + " button.playpause span.mdi").removeClass("mdi-play").addClass("mdi-pause");
-
-			// AJAX Recurring Call
-			player.intervalFunction  = setInterval( function() { 
-				player.getCurrentTime().then( function(seconds) {
-					postVideoViews(player.vimeoObject.cgUID, player.vimeoObject.cgUID_s, seconds);
-				}) 
-			}, 10000)
-
-			// Timer
-            player.intervalTimerFunction = setInterval(function() { 
-            	player.getCurrentTime().then( function(seconds) {
-	            	var currentTime = new Date(seconds * 1000).toISOString();
-	            	if (player.totalDuration >= 3600) {
-	            		currentTime = currentTime.substr(11, 8);
-	            	}
-	            	else {
-	            		currentTime = currentTime.substr(14, 5);
-	            	}
-	            	$("#player-time--" + player.vimeoObject.cgID).html(currentTime);
-				}) 
-            }, 1000) 
-		}
-
-		function vimeoPlayerPause(player) { 
-			// Change Buttons
-			$("#player-btn--" + player.vimeoObject.cgID + " button.playpause").attr("data-status", "play").attr("aria-label", "Play");
-			$("#player-btn--" + player.vimeoObject.cgID + " button.playpause span.mdi").removeClass("mdi-pause").addClass("mdi-play");
-
-			// Clear AJAX Recurring Call
-			clearInterval(player.intervalFunction);
-			clearInterval(player.intervalTimerFunction);
-			player.intervalFunction = null;
-			player.intervalTimerFunction = null;
-			
-			player.getCurrentTime().then( function(seconds) {
-				postVideoViews(player.vimeoObject.cgUID, player.vimeoObject.cgUID_s, seconds);
-			});		
-		}
-
-		function vimeoPlayerEnded(player) {
-			// Change Buttons
-			$("#player-btn--" + player.vimeoObject.cgID + " button.playpause").attr("data-status", "play").attr("aria-label", "Play");
-			$("#player-btn--" + player.vimeoObject.cgID + " button.playpause span.mdi").removeClass("mdi-pause").addClass("mdi-play");
-
-			// Clear AJAX Recurring Call
-			clearInterval(player.intervalFunction);
-			clearInterval(player.intervalTimerFunction);
-			player.intervalFunction = null;
-			player.intervalTimerFunction = null;
-
-			player.getCurrentTime().then( function(seconds) {
-				postVideoViews(player.vimeoObject.cgUID, player.vimeoObject.cgUID_s, seconds, 'true');
-			});
-
-			//if (typeof refreshTrackChecklist !== "undefined") { refreshTrackChecklist(); }
-			//else if (typeof parent.refreshTrackChecklist !== "undefined") { parent.refreshTrackChecklist(); }
-		}
-
-		function vimeoPlayerPlayPause(player) {
-			var currentStatus = $("#player-btn--" + player.vimeoObject.cgID + " button.playpause").attr("data-status");
-			if (currentStatus == "play") {
-				player.play();
-			}
-			else if (currentStatus == "pause") {
-				player.pause();
-			}
-		}
-
-      	// We wait until the script is fully loaded.
-      	$("#vimeoScript").on('load', function() {
-		  	
-		  	// Loop through players
-	  		arrVimeoPlayerObjects.forEach(function (vimeoObject, index) {
-
-                if (typeof getVideoPlayerCCLoadPolicy !== 'undefined' && getVideoPlayerCCLoadPolicy() === 1) {
-                    // load with closed captions enabled (set texttrack to 'en')
-	      			arrVimeoPlayers[index] = new Vimeo.Player("player--" + vimeoObject.cgID, { url: vimeoObject.URL , height: vimeoObject.height, width: vimeoObject.width, controls: false, texttrack: 'en' });
-                } else {
-    	  			arrVimeoPlayers[index] = new Vimeo.Player("player--" + vimeoObject.cgID, { url: vimeoObject.URL , height: vimeoObject.height, width: vimeoObject.width, controls: false });
-                }
-	  			arrVimeoPlayers[index].vimeoObject = vimeoObject;
-	  			arrVimeoPlayers[index].intervalFunction = null;
-
-	  			if (vimeoObject.startTime != 0) {
-	  				arrVimeoPlayers[index].setCurrentTime(vimeoObject.startTime);
-	  			}
-
-				arrVimeoPlayers[index].on('play',  function() { vimeoPlayerPlay(this)  } );
-				arrVimeoPlayers[index].on('pause', function() { vimeoPlayerPause(this) } );
-				arrVimeoPlayers[index].on('ended', function() { vimeoPlayerEnded(this) } );
-
-				$("#player-btn--" + vimeoObject.cgID + " button.playpause").on('click', function() { 
-					vimeoPlayerPlayPause(arrVimeoPlayers[index]); 
-				});
-				$("#player-btn--" + vimeoObject.cgID + " button.replay").on('click', function() { 
-					arrVimeoPlayers[index].setCurrentTime(0) 
-				});
-				$("#player-btn--" + vimeoObject.cgID + " button.rewind").on('click', function() { 
-					arrVimeoPlayers[index].getCurrentTime().then(function(seconds) {
-						arrVimeoPlayers[index].setCurrentTime(Math.max(0, seconds - 10));
-					})
-				});
-                const turnClosedCaptionsOnOff = (typeof getVideoPlayerCCLoadPolicy !== 'undefined' && getVideoPlayerCCLoadPolicy() === 1) ? 'off' : 'on';
-                $("#player-btn--" + vimeoObject.cgID + " button.closedcaption").attr('aria-label', 'Turn ' + turnClosedCaptionsOnOff + ' closed captions. Note, this requires a reload of the current page.');
-				$("#player-btn--" + vimeoObject.cgID + " button.closedcaption").on('click', function() {
-                    toggleClosedCaptionsAndReloadVideoIframes();
-				});
-				$("#player-btn--" + vimeoObject.cgID + " button.fullscreen").on('click', function() {
-					arrVimeoPlayers[index].pause();
-					tb_show("", "/video_player?embed=1&uid=" + vimeoObject.cgUID + "&width=995&height=680&modal=true&TB_iframe=1", "");
-				});
-
-				$(window).blur(function() { 
-					arrVimeoPlayers[index].pause(); 
-				});
-				$(window).scroll(function() { 
-					if ( !isInViewport(document.getElementById("player--" + vimeoObject.cgID))) { 
-						arrVimeoPlayers[index].pause(); 
-					} 
-				});
-
-
-				var startTime = new Date(vimeoObject.startTime * 1000).toISOString();
-				var totalTime = 0;
-				arrVimeoPlayers[index].getDuration().then(function(seconds) { 
-					arrVimeoPlayers[index].totalDuration = seconds;
-
-					totalTime = new Date(seconds * 1000).toISOString();
-					if (seconds >= 3600) {
-						startTime = startTime.substr(11, 8);
-						totalTime = totalTime.substr(11, 8);
-					}
-					else {
-						startTime = startTime.substr(14, 5);
-						totalTime = totalTime.substr(14, 5);
-					}
-					$("#player-btn--" + vimeoObject.cgID + " div.timer").html("<span id='player-time--" + vimeoObject.cgID + "'>" + startTime + "</span> / " + totalTime);
-				});
-			});
-
-			arrVimeoPlayerObjects = undefined;
-
-		});
-
-	}
-</script>
-
-<script>
-	$(document).ready(function(){
-		$("[data-toggle='tooltip']").tooltip(); 	
-		$(".btn--loader").click(function() {
-			loadButton($(this));
-		});
-		tb_init('a.thickbox, area.thickbox, input.thickbox');
-
-         // fix for the non editable input in ckeditor (ex: URL...)
-         $(".modal").removeAttr("tabindex");
-		 // second hack to fix ckeditor links, especially the 'edit link' option
-		 $.fn.modal.Constructor.prototype.enforceFocus = function() {
-			modal_this = this
-			$(document).on('focusin.modal', function (e) {
-				if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length 
-				&& !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select') 
-				&& !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')) {
-				modal_this.$element.focus()
-				}
-			})
-		 };
-
-         setupAjaxAccessibility();
-	});
-</script>
-
- <!-- AX != 1 -->
-
-			
-
-			</div><!--/.content -->
-		</div><!--/.content-page -->
-	</div><!--/.inner-shell -->
-
-	
-				<style>
-					.outer-shell { display:flex; flex-direction:column; min-height: 100vh; }
-					@-moz-document url-prefix() {
-						.inner-shell  {flex:1; }
-					}
-					@media screen and (-webkit-min-device-pixel-ratio:0) {
-						.inner-shell { flex:1; }
-					}
-					body.enlarged { min-height:initial; position:relative; }
-					body.enlarged > .outer-shell { display:flex; flex-direction:column; min-height: 100vh; }
-				</style>
-				<footer class="footer__home">
-					<div>
-						
-						<div id="footer-links" class="row footer__cont" style="background: transparent;">
-							<div class="col-md-offset-1_5 col-md-3 col-sm-12 col-xs-12 text-center" style="padding-top:10px;">
-								<img alt="University of Rochester Website Logo" src="image_upload_875413_ccc_logo_50x130_71115585.png" style="max-width:150px;max-height:50px;border-radius:6px;">
-							</div>
-							<div class="text-xs-center text-sm-left text-md-left col-md-3 col-sm-6 col-xs-12" style="display:flex;padding: 10px 10px;">
-								<div style="margin:auto" role="group" aria-label="Contact information.">
-									<h2 class="footer__home--title" style="margin-top: 0; margin-bottom: 10px;">Contact</h2><br>
-									<span style="margin-bottom:5px">University of Rochester</span><br>
-									<span style="margin-bottom:5px;line-height:1.7">United States</span><br>
-									
-									<a class="a-footer-contact-links" href="mailto:wcsa@rochester.edu" aria-label="Send an email to wcsa@rochester.edu">wcsa@rochester.edu</a><br>
-									
-								</div>
-							</div>
-							<div class="text-xs-center text-sm-left text-md-left col-md-3 col-sm-6 col-xs-12" style="display:flex;vertical-align:top;padding: 10px 10px;">
-								<div style="margin:auto" role="group" aria-label="Links">
-									<h2 class="footer__home--title" style="margin-top: 0; margin-bottom: 10px;">Links</h2><br>
-									
-										<a class="a-footer-contact-links" href="https://ccc.rochester.edu/home/groups/">Groups</a><br>
-									
-										<a class="a-footer-contact-links" href="https://ccc.rochester.edu/home/events/">Events</a><br>
-									
-										<a class="a-footer-contact-links" href="https://ccc.rochester.edu/home/news/">News</a><br>
-									
-                                    <a class="a-footer-contact-links" href="https://readyedu.atlassian.net/wiki/spaces/CGSD/overview?homepageId=302186786">Support Center</a>
-								</div>
-							</div>
-							
-						</div>
-						<div class="row" style="padding:15px 20px 0 20px;border-top:1px solid #5a5a5a;margin-top: 10px;" role="group" aria-label="Footer Bar Links">
-							<div class="col-sm-6 col-xs-12 text-xs-center text-sm-left"></div>
-							<div class="col-sm-6 col-xs-12 text-xs-center text-sm-right">
-								<a class="a-footer-contact-links" href="http://www.novalsys.com/">©2025  CampusGroups</a>
-							</div>
-						</div>
-					</div>
-				</footer>
-			
-
-	<script type="text/javascript" src="jquery-migrate-1.2.1.js.download"></script>
-
-	<!-- THICKBOX -->
-	<script src="thickbox.js.download"></script>
-
-    <script type="text/javascript" src="metisMenuCustom.js.download"></script>
-    <script type="text/javascript" src="jquery.slimscroll.js.download"></script>
-    <!--<link href="/static/css/scrollbar.css" rel="stylesheet">
-    <script type="text/javascript" src="/static/js/scrollbar.js"></script>-->
-
-	<script type="text/javascript">function $$(strId) { return document.getElementById(strId); }</script>
-	<script type="text/javascript" src="clamp.min.js.download"></script>
-    <script type="text/javascript" src="core.js.download"></script>
-    <script type="text/javascript" src="menu.js.download"></script>
-    <script type="text/javascript" src="routing.js.download"></script>
-
-
-	
-		<script type="text/javascript">$.ajaxSetup({cache:true})</script>
-	
-
-	<!-- @TODO: This is for jPrompt. We might to see if an update is available or give it a better style -->
-	
-	    <link href="jquery.alerts.css" rel="stylesheet" type="text/css">
-	    <script src="jquery.alerts.js.download" type="text/javascript"></script>
-	
-
-	<!-- @TODO: Check if used : put directly on /r and student_password-->
-	
-	    <script>
-	        
-	    </script>
-	
-
-	<!-- Google Analytics -->
-	<script>
-	var _customTask = function() {
-	  return function(model){
-	    var piiRegex = [
-	    	{ name: 'Email', regex: /.{4}@.{4}/g},
-	       	{ name: 'Phone_Number', regex: /^(\+|\d)[0-9]{7,16}$/g},
-	       	{ name: 'SSN', regex: /^\d{3}-\d{2}-\d{4}$}/g},
-	       	{ name: 'Address', regex: /^\d+\s[A-z]+\s[A-z]+/g}];
-
-	    var globalSendTaskName = '_' + model.get('trackingId') + '_sendHitTask';
-
-	    // Fetch reference to the original sendHitTask
-	    var originalSendTask = window[globalSendTaskName] = window[globalSendTaskName] || model.get('sendHitTask');
-	    var i, hitPayload, parts, val;
-
-	    // Overwrite sendHitTask with PII purger
-	    model.set('sendHitTask', function(sendModel) {
-
-	      hitPayload = sendModel.get('hitPayload').split('&');
-
-	      for (i = 0; i < hitPayload.length; i++) {
-	        parts = hitPayload[i].split('=');
-
-	        // Double-decode, to account for web server encode + analytics.js encode
-	        try {
-	          val = decodeURIComponent(decodeURIComponent(parts[1]));
-	        } catch(e) {
-	          val = decodeURIComponent(parts[1]);
-	        }
-
-	        piiRegex.forEach(function(pii) {
-	          val = val.replace(pii.regex, '[REDACTED ' + pii.name + ']');
-	        });
-
-	        parts[1] = encodeURIComponent(val);
-	        hitPayload[i] = parts.join('=');
-	      }
-
-	      sendModel.set('hitPayload', hitPayload.join('&'), true);
-	      originalSendTask(sendModel);
-	    });
-	  };
-	}
-	</script>
-
-	
-	<!-- End Google Analytics -->
-
-	
-
-    <!-- Help -->
-	
-    <!-- End Help -->
-
-
-
- 
-
-	<style>
-
-		/* acc-keyboard-mode (OFF) - Default outline on :focus (none) */
-		body:not(.acc-keyboard-mode) :focus { outline: none; }
-		body:not(.acc-keyboard-mode) a:focus { outline: none; }
-
-        body:not(.acc-keyboard-mode) button.close:focus { outline: none; }
-
-		body:not(.acc-keyboard-mode) .button:focus { outline: none; }
-		body:not(.acc-keyboard-mode) .button.focus { outline: none; }
-
-		body:not(.acc-keyboard-mode) .btn.active.focus,
-        body:not(.acc-keyboard-mode) .btn.active:focus,
-        body:not(.acc-keyboard-mode) .btn.focus,
-        body:not(.acc-keyboard-mode) .btn:active.focus,
-        body:not(.acc-keyboard-mode) .btn:active:focus,
-        body:not(.acc-keyboard-mode) .btn:focus { outline: none; }
-
-		body:not(.acc-keyboard-mode) .dropdown-toggle:focus { outline: none; }
-		#header__btn-cont--manage:focus, #header__btn-cont--manage:focus-within { outline: none; }
-
-		/* no outline/focus on the following (various reasons including hover style on focus, other focus styles applied, etc.) */
-		body:not(.acc-keyboard-mode) h2:focus { outline: none; outline-offset: 0px; border: none; }
-		/* .page__header--btns .btn:focus { outline: none !important; outline-offset: 0px !important; } */
-		/* a.btn--rounded:focus { outline: none !important; outline-offset: 0px !important; } */
-
-		/* acc-keyboard-mode (ON) - Default outline on :focus (2px solid #000000) */
-		.acc-keyboard-mode a:focus {
-			outline: 2px solid #000000;
-			outline-offset: 2px;
-		}
-
-	</style>
-
-    <!-- should always be last stylesheet loaded -->
-    <link href="accessibility.css" rel="stylesheet">
-
-
-
-</div></body><!-- END AX != 1 --></html>
+        var btn = document.getElementById('loginButton');
+        btn.disabled = true;
+        btn.textContent = 'Signing in...';
+        // Allow form to submit normally to server
+      });
+
+      // Accessibility helper for top-logo
+      var topLogo = document.getElementById('a-top-bar-logo');
+      topLogo.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' ') { this.click(); }
+      });
+    })();
+  </script>
+</body>
+</html>
