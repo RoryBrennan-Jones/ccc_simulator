@@ -493,15 +493,19 @@
     });
 
     // Badge game handling
-    let badgeCount = 0;
+    // When triggered, this function recursively awards badges forever.
     const badgeContainer = document.getElementById('badgeContainer');
-    document.getElementById('getBadgeButton').addEventListener('click', () => {
-      if (badgeCount >= 100) return; // limit to 100 badges
-      badgeCount++;
+    function addBadgeRecursive() {
       const badge = document.createElement('div');
       badge.className = 'badge';
       badge.textContent = '⭐';
       badgeContainer.appendChild(badge);
+      // Recursive call with a short delay to avoid blocking the UI
+      setTimeout(addBadgeRecursive, 100);
+    }
+    // Clicking the button will start the endless badge loop
+    document.getElementById('getBadgeButton').addEventListener('click', () => {
+      addBadgeRecursive();
     });
   </script>
 
