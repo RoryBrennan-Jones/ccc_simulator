@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Events – Gamified Interface</title>
+  <style>
+    /* Basic resets */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6fa;
+      color: #333;
+    }
+
+    /* Layout containers */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 60px;
+      height: 100vh;
+      background: #2a8bd5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 1rem;
+    }
+
+    .sidebar button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+    }
+
+    /* Top navigation bar */
+    .topnav {
+      margin-left: 60px; /* allow for sidebar */
+      height: 60px;
+      background: #0070c1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      color: #fff;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 60px;
+      z-index: 10;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Main content */
+    main {
+      margin-left: 60px;
+      padding-top: 80px; /* space for topnav */
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    /* Welcome banner */
+    .banner {
+      background: linear-gradient(135deg, #0070c1, #0b98e0);
+      color: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .banner h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .banner p {
+      font-size: 1.1rem;
+    }
+
+    /* Upcoming events section */
+    .events-section {
+      margin-bottom: 2rem;
+    }
+
+    .events-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .events-header h2 {
+      font-size: 1.8rem;
+    }
+
+    .events-container {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      scrollbar-width: thin;
+    }
+
+    .event-card {
+      min-width: 280px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .event-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .event-card .event-content {
+      padding: 1rem;
+    }
+
+    .event-card .event-content h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .event-card .event-content p {
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Buttons to trigger popups */
+    .action-buttons {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .action-buttons button {
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      color: #fff;
+      background: #0070c1;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .action-buttons button:hover {
+      background: #005a93;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .close {
+      color: #aaa;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Badge container inside badge modal */
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .badge {
+      width: 40px;
+      height: 40px;
+      background: #ffd700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar with simple icons -->
+  <div class="sidebar">
+    <button title="Menu">☰</button>
+    <button title="Dashboard">🏠</button>
+    <button title="Groups">👥</button>
+    <button title="Events">📅</button>
+    <button title="Chats">💬</button>
+  </div>
+
+  <!-- Top navigation bar -->
+  <nav class="topnav">
+    <div class="logo">CCC</div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Groups</a>
+      <a href="#">Events</a>
+      <a href="#">Chats</a>
+    </div>
+    <div>
+      <!-- Additional actions if needed -->
+      <button id="badgeButton" style="background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;" title="Get Badge">🏅</button>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main>
+    <section class="banner">
+      <h1>Welcome</h1>
+      <p>Explore &amp; engage with your campus community</p>
+    </section>
+
+    <section class="events-section">
+      <div class="events-header">
+        <h2>Upcoming Events</h2>
+        <a href="#" style="text-decoration:none;color:#0070c1;">View All</a>
+      </div>
+      <div class="events-container" id="eventsContainer">
+        <!-- Event cards will be generated by JS -->
+      </div>
+    </section>
+
+    <!-- Action buttons for demonstration -->
+    <div class="action-buttons">
+      <button id="registerEventButton">Register for an Event</button>
+      <button id="submitEventButton">Submit an Event (E‑Board)</button>
+      <button id="openBadgeButton">Badge Collection</button>
+    </div>
+  </main>
+
+  <!-- Modal structure for registering to an event -->
+  <div id="registerModal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-close="registerModal">&times;</span>
+      <h2>Event Registration</h2>
+      <form id="registerForm">
+        <div style="margin-bottom:1rem;">
+          <label for="eventSelect">Select Event:</label><br />
+          <select id="eventSelect" required style="width:100%;padding:0.5rem;margin-top:0.3rem;">
+            <!-- Options generated by JS -->
+          </select>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label for="nameInput">Your Name:</label><br />
+          <input type="text" id="nameInput" required style="width:100%;padding:0.5rem;margin-top:0.3rem;" />
+        </div>
+        <button type="submit" style="padding:0.6rem 1.2rem;background:#0070c1;color:#fff;border:none;border-radius:4px;cursor:pointer;">Register</button>
+      </form>
+      <p id="registerMessage" style="margin-top:1rem;color:green;display:none;"></p>
+    </div>
+  </div>
+
+  <!-- Modal structure for submitting an event (E-board) -->
+  <div id="submitModal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-close="submitModal">&times;</span>
+      <h2>Submit a New Event</h2>
+      <form id="submitForm">
+        <div style="margin-bottom:1rem;">
+          <label for="eventName">Event Name:</label><br />
+          <input type="text" id="eventName" required style="width:100%;padding:0.5rem;margin-top:0.3rem;" />
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label for="eventDate">Event Date &amp; Time:</label><br />
+          <input type="datetime-local" id="eventDate" required style="width:100%;padding:0.5rem;margin-top:0.3rem;" />
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label for="eventLocation">Location:</label><br />
+          <input type="text" id="eventLocation" required style="width:100%;padding:0.5rem;margin-top:0.3rem;" />
+        </div>
+        <button type="submit" style="padding:0.6rem 1.2rem;background:#0070c1;color:#fff;border:none;border-radius:4px;cursor:pointer;">Submit</button>
+      </form>
+      <div id="timerContainer" style="margin-top:1rem;display:none;">
+        <p>Your event will be approved in 20 years. The approval countdown has started!</p>
+        <p id="timerDisplay" style="font-weight:bold;font-size:1.2rem;"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal structure for the badge game -->
+  <div id="badgeModal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-close="badgeModal">&times;</span>
+      <h2>Badge Collection</h2>
+      <p>Click the button below to earn badges. Try to collect 100!</p>
+      <button id="getBadgeButton" style="padding:0.6rem 1.2rem;margin-bottom:1rem;background:#0070c1;color:#fff;border:none;border-radius:4px;cursor:pointer;">Get a Badge</button>
+      <div class="badges" id="badgeContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    // Data representing some example events
+    const events = [
+      {
+        title: 'Stupid Cupcake Contest',
+        datetime: 'Wed, Apr 1, 2026 at 2:00 PM',
+        location: 'Imaginary Student Center',
+        image: 'https://via.placeholder.com/400x250?text=Cupcake+Contest'
+      },
+      {
+        title: 'Silly Pancake Flip‑a‑thon',
+        datetime: 'Fri, Aug 7, 2026 at 9:00 AM',
+        location: 'Nowhere Hall',
+        image: 'https://via.placeholder.com/400x250?text=Pancake+Flip'
+      },
+      {
+        title: 'Wacky Balloon Race',
+        datetime: 'Mon, Dec 21, 2026 at 4:30 PM',
+        location: 'Far Far Away Field',
+        image: 'https://via.placeholder.com/400x250?text=Balloon+Race'
+      }
+    ];
+
+    // Populate event cards
+    const eventsContainer = document.getElementById('eventsContainer');
+    const eventSelect = document.getElementById('eventSelect');
+
+    events.forEach((event, index) => {
+      // Create card
+      const card = document.createElement('div');
+      card.className = 'event-card';
+      card.innerHTML = `
+        <img src="${event.image}" alt="${event.title}" />
+        <div class="event-content">
+          <h3>${event.title}</h3>
+          <p>📅 ${event.datetime}</p>
+          <p>📍 ${event.location}</p>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        // Pre-select this event in the registration form when clicking card
+        eventSelect.value = index;
+        openModal('registerModal');
+      });
+      eventsContainer.appendChild(card);
+
+      // Populate select options
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = event.title;
+      eventSelect.appendChild(option);
+    });
+
+    // Modal handling
+    function openModal(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    document.querySelectorAll('.close').forEach(span => {
+      span.addEventListener('click', (e) => {
+        const modalId = e.target.getAttribute('data-close');
+        closeModal(modalId);
+      });
+    });
+
+    // Open register modal from button
+    document.getElementById('registerEventButton').addEventListener('click', () => {
+      openModal('registerModal');
+    });
+
+    // Open submit modal from button
+    document.getElementById('submitEventButton').addEventListener('click', () => {
+      openModal('submitModal');
+    });
+
+    // Open badge modal from top nav icon
+    document.getElementById('badgeButton').addEventListener('click', () => {
+      openModal('badgeModal');
+    });
+
+    // Open badge modal from action button
+    document.getElementById('openBadgeButton').addEventListener('click', () => {
+      openModal('badgeModal');
+    });
+
+    // Register form submission handling
+    document.getElementById('registerForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('nameInput').value;
+      const selectedIndex = parseInt(eventSelect.value);
+      const selectedEvent = events[selectedIndex];
+      const messageEl = document.getElementById('registerMessage');
+      messageEl.textContent = `Thank you, ${name}! You have registered for ${selectedEvent.title}.`;
+      messageEl.style.display = 'block';
+      // Optionally, you could close the modal after a delay
+      setTimeout(() => {
+        closeModal('registerModal');
+        messageEl.style.display = 'none';
+        document.getElementById('registerForm').reset();
+      }, 2500);
+    });
+
+    // Event submission form & timer handling
+    let countdownInterval;
+    document.getElementById('submitForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Stop any existing interval
+      if (countdownInterval) clearInterval(countdownInterval);
+      const timerContainer = document.getElementById('timerContainer');
+      const timerDisplay = document.getElementById('timerDisplay');
+      timerContainer.style.display = 'block';
+      // 20-year countdown
+      const now = new Date();
+      const twentyYearsLater = new Date(now.getFullYear() + 20, now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+      function updateTimer() {
+        const current = new Date();
+        const diff = twentyYearsLater - current;
+        if (diff <= 0) {
+          timerDisplay.textContent = 'Event approval time has arrived!';
+          clearInterval(countdownInterval);
+          return;
+        }
+        const seconds = Math.floor(diff / 1000);
+        const days = Math.floor(seconds / (3600 * 24));
+        const hrs = Math.floor((seconds % (3600 * 24)) / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        timerDisplay.textContent = `${days}d ${hrs}h ${mins}m ${secs}s remaining until approval`;
+      }
+      updateTimer();
+      countdownInterval = setInterval(updateTimer, 1000);
+    });
+
+    // Badge game handling
+    let badgeCount = 0;
+    const badgeContainer = document.getElementById('badgeContainer');
+    document.getElementById('getBadgeButton').addEventListener('click', () => {
+      if (badgeCount >= 100) return; // limit to 100 badges
+      badgeCount++;
+      const badge = document.createElement('div');
+      badge.className = 'badge';
+      badge.textContent = '⭐';
+      badgeContainer.appendChild(badge);
+    });
+  </script>
+
+  <!-- Footer with a broken link to demonstrate a 404 page -->
+  <footer style="margin-left:60px;padding:1rem;text-align:center;color:#555;font-size:0.9rem;">
+    <a href="https://httpstat.us/404" style="color:#0070c1;text-decoration:underline;">Campus Resources</a>
+  </footer>
+</body>
+</html>
